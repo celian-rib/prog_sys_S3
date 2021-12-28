@@ -89,8 +89,7 @@ static void do_system(struct Shell *this, const struct StringVector *args) {
                 } else if (entreeALire) {
                 } else if (sortieALire) {
                 } else {
-                    string_vector_add(&argv, argumentNumeroI,
-                                      argumentNumeroI + strlen(argumentNumeroI));
+                    string_vector_add(&argv, argumentNumeroI, argumentNumeroI + strlen(argumentNumeroI));
                 }
             }
             // On ajoute la string NULL à la fin de notre tableau d'arguments
@@ -141,10 +140,9 @@ static void do_jobs(struct Shell *this, const struct StringVector *args) {
 static struct {
     const char *name;
     Action action;
-} actions[] = {{.name = "exit", .action = do_exit}, {.name = "cd", .action = do_cd},
-               {.name = "help", .action = do_help}, {.name = "rappel", .action = do_rappel},
-               {.name = "jobs", .action = do_jobs}, {.name = "?", .action = do_help},
-               {.name = "!", .action = do_system},  {.name = NULL, .action = do_execute}};
+} actions[] = {{.name = "exit", .action = do_exit},     {.name = "cd", .action = do_cd},     {.name = "help", .action = do_help},
+               {.name = "rappel", .action = do_rappel}, {.name = "jobs", .action = do_jobs}, {.name = "?", .action = do_help},
+               {.name = "!", .action = do_system},      {.name = NULL, .action = do_execute}};
 
 Action get_action(char *name) {
     int i = 0;

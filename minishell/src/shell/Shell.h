@@ -6,7 +6,7 @@
 
 #include "Jobs.h"
 
-// extern = le shell global 
+// extern = le shell global
 // est déclaré à un autre endroit
 extern struct Shell *shell_global;
 
@@ -18,11 +18,11 @@ struct Shell {
     struct Jobs jobList;
 };
 
-void shell_init( struct Shell *s );
-void shell_run( struct Shell *s );
-void shell_free( struct Shell *s );
+void shell_init(struct Shell *s);
+void shell_run(struct Shell *s);
+void shell_free(struct Shell *s);
 
-void shell_read_line( struct Shell *s );
-void shell_execute_line( struct Shell *s );
+void shell_read_line(struct Shell *s);
+void shell_execute_line(struct Shell *s);
 
 #endif
