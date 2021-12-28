@@ -12,6 +12,8 @@
 
 ## 2) `write` & `read`
 
+
+
 **a) Descripteurs I/O (Input/Output) :**
 
 > Correspondent aux fichiers ouverts pour une action (Tout est fichier sur linux)
@@ -23,6 +25,8 @@
 `STDERR_FILENO` : sortie d'erreur
 
 > `#include <unistd.h>`
+
+
 
 **b)** La fonction `write(...)` permet d'écrire sur une sortie.
 
@@ -38,6 +42,8 @@ write(stdout, tampon, 6);
 > param 2 : chaîne a écrire
 > 
 > param 3 : nombre d'octet a écrire = nb char (Ne pas oublier \0)
+
+
 
 **c)** La fonction `read(...)` permet de lire une entrée
 
@@ -59,6 +65,8 @@ write(STDOUT_FILENO, tampon, nb);
 > 
 > valeur de retour : nombre d'octets lus
 
+
+
 **d)** Différence `stdout` et `STDOUT_FILEN0`
 
 | Descripteur     | Librairie  | Fonctions qui l'utilisent   |
@@ -69,6 +77,8 @@ write(STDOUT_FILENO, tampon, nb);
 >  [source](https://stackoverflow.com/a/12902707/12647299)
 
 ---
+
+
 
 ## 3) `system` & `chdir`
 
@@ -212,8 +222,6 @@ Du côté de l'`exec` qui est fait dans l'enfant, ce dernier :
 
 Un signal est un message émit à destination d'un processus (ou d'un groupe de processus) pour l'informer que quelque chose vient de survenir ou pour lui demander de réaliser une tâche particulière. 
 
-
-
 La fonction `signal` permet de définir quelle fonctionne appeler a la reception d'un signal.
 
 | Nom     | Signal                          | Description                                                                                                                                                                                                                    |
@@ -225,15 +233,9 @@ La fonction `signal` permet de définir quelle fonctionne appeler a la reception
 | SIGSEGV | Signal Segmentation Violation   | Accès à un segment de mémoire virtuelle non mappé en mémoire physique ou tentative de modification d'un segment de mémoire configuré en lecture seule.                                                                         |
 | SIGTERM | Signal Terminate                | Signal de demande de terminaison du programme.                                                                                                                                                                                 |
 
-
-
 ```c
 
 ```
-
-
-
-
 
 ---
 

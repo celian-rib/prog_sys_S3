@@ -4,6 +4,7 @@
         "stringvector.h": "c",
         "cstdlib": "c",
         "unistd.h": "c",
-        "shell.h": "c"
+        "shell.h": "c",
+        "types.h": "c"
     }
 }

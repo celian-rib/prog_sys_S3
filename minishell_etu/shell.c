@@ -6,7 +6,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include <wait.h>
 
 #include "StringVector.h"
 #include "actions.h"

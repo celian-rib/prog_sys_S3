@@ -1,15 +1,38 @@
-SRC_C=shell.c StringVector.c actions.c
-OBJ=${SRC_C:.c=.o}
-CFLAGS= -g -std=c11 -Wall -Wextra -pedantic -D_XOPEN_SOURCE=700
+TARGET = main
 
-all: main
+CC = gcc
+CFLAGS = --std=c11 -g -Wall -Wextra -Wunused -pedantic -D_XOPEN_SOURCE=700
 
-main: $(OBJ) main.o
-	gcc $(CFLAGS) $(OBJ) main.o -o main
+SOURCEDIR = ./src
+SUBDIR = $(shell find $(SOURCEDIR) -maxdepth 1 -type d)
+DIR_OBJ = ./obj
 
-%.o: %.c
-	gcc -c $(CFLAGS) $<
+HEADERS = $(wildcard *.h $(foreach fd, $(SUBDIR), $(fd)/*.h))
+SOURCES = $(wildcard *.c $(foreach fd, $(SUBDIR), $(fd)/*.c))
 
+OBJECTS = $(addprefix $(DIR_OBJ)/, $(SOURCES:c=o))
+INC_DIRS = -I./ $(addprefix -I, $(SUBDIR))
+
+PHONY := $(TARGET)
+
+$(TARGET): $(OBJECTS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJECTS)
+
+$(DIR_OBJ)/%.o: %.c $(HEADERS)
+	mkdir -p $(@D)
+	$(CC) $(CFLAGS) -o $@ -c $< $(INC_DIRS)
+
+PHONY += clean
 clean:
-	@rm -f $(OBJ) main.o main *~
+	rm -rf $(TARGET) $(DIR_OBJ)/*
 
+PHONY += debug
+debug:
+	@echo "HEADERS: $(HEADERS)"
+	@echo "SOURCES: $(SOURCES)"
+	@echo "OBJECTS: $(OBJECTS)"
+	@echo "INC_DIRS: $(INC_DIRS)"
+	@echo "SOURCEDDIR: $(SOURCEDIR)"
+	@echo "SUBDIR: $(SUBDIR)"
+
+.PHONY = $(PHONY)
