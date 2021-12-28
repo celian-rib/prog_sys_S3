@@ -7,6 +7,11 @@
 #include "Shell.h"
 #include "StringVector.h"
 
+#define Reset "\033[0m"
+#define Purple "\033[0;35m"
+#define Yellow "\033[0;33m"
+#define Cyan "\033[0;36m"
+
 struct Shell *shell_global;
 
 void shell_init(struct Shell *s) {
@@ -60,9 +65,9 @@ void shell_free(struct Shell *s) {
 void shell_read_line(struct Shell *s) {
     // Affichage du début du shell. Ex: 12: ~/Documents/>
     char cwd[1000];
-    getcwd(cwd, sizeof(cwd));                // On récupère le répertoire courant
-    printf("%d: %s> ", s->line_number, cwd); // On affiche l'entête
-    fflush(stdout);                          // Pour forcer l'affichage
+    getcwd(cwd, sizeof(cwd)); // On récupère le répertoire courant
+    printf("%s> %s[%d]%s %s %s$ ", Yellow, Purple, s->line_number, Cyan, strrchr(cwd, '/'), Reset);
+    fflush(stdout); // Pour forcer l'affichage
 
     // Lecture de la ligne
     getline(&s->buffer, &s->buffer_size, stdin);

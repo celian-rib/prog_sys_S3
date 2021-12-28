@@ -3,6 +3,8 @@
 
 #include <sys/types.h>
 
+#define NB_JOBS_MAX 10
+
 struct Job {
     pid_t pid;
     char *command;
@@ -11,7 +13,7 @@ struct Job {
 void job_free(struct Job *);
 
 struct Jobs {
-    struct Job job_list[100];
+    struct Job job_list[10];
     int job_list_size;
 };
 

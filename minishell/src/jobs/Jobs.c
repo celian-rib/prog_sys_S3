@@ -19,7 +19,7 @@ void jobs_free(struct Jobs *j) {
 }
 
 void jobs_add_job(struct Jobs *j, pid_t p, char *command) {
-    if (j->job_list_size < 100) {
+    if (j->job_list_size < NB_JOBS_MAX) {
         j->job_list[j->job_list_size].pid = p;
         j->job_list[j->job_list_size].command = command;
         j->job_list_size++;
