@@ -12,9 +12,7 @@
 
 ## 2) `write` & `read`
 
-
-
-**a) Descripteurs I/O (Input/Output) :**
+### a) Descripteurs I/O (Input/Output) :
 
 > Correspondent aux fichiers ouverts pour une action (Tout est fichier sur linux)
 
@@ -26,9 +24,7 @@
 
 > `#include <unistd.h>`
 
-
-
-**b)** La fonction `write(...)` permet d'écrire sur une sortie.
+### **b)** La fonction `write(...)` permet d'écrire sur une sortie.
 
 > <unistd.h>
 
@@ -43,9 +39,7 @@ write(stdout, tampon, 6);
 > 
 > param 3 : nombre d'octet a écrire = nb char (Ne pas oublier \0)
 
-
-
-**c)** La fonction `read(...)` permet de lire une entrée
+### **c)** La fonction `read(...)` permet de lire une entrée
 
 > <unistd.h>
 
@@ -65,9 +59,7 @@ write(STDOUT_FILENO, tampon, nb);
 > 
 > valeur de retour : nombre d'octets lus
 
-
-
-**d)** Différence `stdout` et `STDOUT_FILEN0`
+### **d)** Différence `stdout` et `STDOUT_FILEN0`
 
 | Descripteur     | Librairie  | Fonctions qui l'utilisent   |
 | --------------- | ---------- | --------------------------- |
@@ -78,11 +70,9 @@ write(STDOUT_FILENO, tampon, nb);
 
 ---
 
-
-
 ## 3) `system` & `chdir`
 
-**a)** La fonction ```system(...)``` permet d'executer une commande shell
+### **a)** La fonction ```system(...)``` permet d'executer une commande shell
 
 > <stdlib.h>
 
@@ -98,7 +88,7 @@ system(getenv("SHELL"));
 > 
 > Ici on ouvre donc un "sous-shell" depuis notre code
 
-**b)** La fonction `chdir(...)` est équivalent à la commande cd, elle change le répoertoire courant du processus.
+### **b)** La fonction `chdir(...)` est équivalent à la commande cd, elle change le répoertoire courant du processus.
 
 > <stdlib.h>
 
@@ -134,7 +124,7 @@ int main() {
 
 ## 5) `fork` & `waitpid` & `getpid`
 
-**a)** La fonction `fork()` demande au système de dupliquer le processus.
+### **a)** La fonction `fork()` demande au système de dupliquer le processus.
 
 ```c
 pid_t p = fork(); // On duplique le processus ici
@@ -146,7 +136,7 @@ printf("je suis le processus père\n");
 printf("le processus fils a le numéro %d\n", p);
 ```
 
-**b)** La fonction `waitpid` permet de bloquer l'exécution du processus courant tant qu'un autre processus ne s'est pas terminé
+### **b)** La fonction `waitpid` permet de bloquer l'exécution du processus courant tant qu'un autre processus ne s'est pas terminé
 
 > <sys/wait.h>
 
@@ -167,7 +157,7 @@ printf("le s'est terminé avec le status %d\n", status);
 > 
 > retour : pid du processus intercepté (Utilise si on met -1 sur param1)
 
-**c)** La fonction `getpid()` permet de récupérer le pid du processus courant
+### **c)** La fonction `getpid()` permet de récupérer le pid du processus courant
 
 ---
 
