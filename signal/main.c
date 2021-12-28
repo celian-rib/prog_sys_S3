@@ -1,20 +1,17 @@
+#include <fcntl.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
 #include <sys/stat.h>
-#include <fcntl.h>
+#include <sys/types.h>
+#include <unistd.h>
 
-int main(int argc, char **argv) {
-    
+void sig_handler(int sig) {
+    printf("recue SIGINT\n");
+    exit(0);
+}
 
-    int fdInput = open(argv[1], O_RDONLY);
-    dup2(fdInput, STDIN_FILENO);
-    close(fdInput);
-
-    int fdOut = open(argv[2], O_CREAT | O_WRONLY, 0644);
-    dup2(fdOut, STDOUT_FILENO);
-    close(fdOut);
-
-    execlp("tr", "tr", "[a-z]", "[A-Z]", NULL);
+int main(void) {
+    signal(SIGINT, sig_handler);
+    while (1) sleep(1); // Attente infinie
 }
