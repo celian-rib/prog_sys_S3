@@ -6,8 +6,6 @@
 #include <fcntl.h>
 
 int main(int argc, char **argv) {
-    
-
     int fdInput = open(argv[1], O_RDONLY);
     dup2(fdInput, STDIN_FILENO);
     close(fdInput);

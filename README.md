@@ -222,10 +222,35 @@ La fonction `signal` permet de définir quelle fonctionne appeler a la reception
 | SIGINT  | Signal Interrupt                | Un signal d'interruption généralement généré par l'utilisateur de l'application.                                                                                                                                               |
 | SIGSEGV | Signal Segmentation Violation   | Accès à un segment de mémoire virtuelle non mappé en mémoire physique ou tentative de modification d'un segment de mémoire configuré en lecture seule.                                                                         |
 | SIGTERM | Signal Terminate                | Signal de demande de terminaison du programme.                                                                                                                                                                                 |
+| SIGUSR1 | User 1                          | Lié a rien, on peut l'utiliser pour ce que l'on veut                                                                                                                                                                           |
+
+### b) La fonction `signal`
+
+Permet d'inscrire une fonction (void) qui sera appelée à la réception d'un signal :
 
 ```c
+void sig_handler(int sig) {
+    printf("recue SIGINT\n");
+    exit(0);
+}
 
+int main(void) {
+    signal(SIGINT, sig_handler); // On enregistre la sig_handler
+    while (1) sleep(1); // Attente infinie
+}
 ```
+
+> Au moment ou le programme recevra le signal `SIGINT` (quand le programme est coupé) il appelera la fonction `sig_handler`
+
+### c) Envoyer un signal avec `kill`
+
+```c
+kill(pid, SIGUSR1);
+```
+
+> param 1 : pid du processus qui doit recevoir le signal
+> 
+> param 2 : signal a envoyer
 
 ---
 
