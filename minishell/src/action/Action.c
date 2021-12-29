@@ -1,3 +1,5 @@
+#include <fcntl.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
@@ -49,7 +51,7 @@ void fin_fils(int sig) {
         return;
     }
 
-    printf("fin de [%d] avec le code de retour %d !\n", childPid, WEXITSTATUS(status));
+    printf("[%d] done (%d)\n", childPid, WEXITSTATUS(status));
     jobs_affiche_un(&(shell_global->jobList), childPid);
     jobs_remove_job(&(shell_global->jobList), childPid);
 }
@@ -72,15 +74,33 @@ static void do_system(struct Shell *this, const struct StringVector *args) {
 
     pid_t child = fork();
     if (child == 0) {
-        char **args_filtered = malloc(nb_args * sizeof(char *));
+        char **args_filtered = NULL;
+        int read_input = 0;
+        int read_output = 0;
+
         for (size_t i = 1; i < nb_args; i++) {
+            args_filtered = realloc(args_filtered, (i + 1) * sizeof(char *));
+
             char *arg_i = strdup(string_vector_get(args, i));
+
             if (*arg_i == '<') {
-                // TODO
-                // } else if (argumentNumeroI[0] == '>') {
-                // } else if (argumentNumeroI[0] == '<') {
-                // } else if (entreeALire) {
-                // } else if (sortieALire) {
+                read_input = 1;
+            } else if (*arg_i == '>') {
+                read_output = 1;
+            } else if (read_output) {
+                int fdOut = open(arg_i, O_CREAT | O_WRONLY, 0644);
+                dup2(fdOut, STDOUT_FILENO);
+                close(fdOut);
+                
+                args_filtered[i] = NULL;
+                execvp(args_filtered[0], args_filtered);
+            } else if (read_input) {
+                int fdIn = open(arg_i, O_RDONLY);
+                dup2(fdIn, STDIN_FILENO);
+                close(fdIn);
+                
+                args_filtered[i] = NULL; // dernier argument = NULL (Pour exec)
+                execvp(args_filtered[0], args_filtered);
             } else {
                 args_filtered[i - 1] = arg_i;
             }

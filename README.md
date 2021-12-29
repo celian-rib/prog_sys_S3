@@ -14,6 +14,8 @@
 
 ### a) Descripteurs I/O (Input/Output) :
 
+- Descripteur = unique id pour un fichier
+
 > Correspondent aux fichiers ouverts pour une action (Tout est fichier sur linux)
 
 `STDOUT_FILENO` : sortie standard
@@ -255,6 +257,34 @@ kill(pid, SIGUSR1);
 ---
 
 ## 9) Redirections
+
+> <fcntl.h> pour `open`
+> 
+> <unistd.h> pour `dup2`
+
+```c
+// On ouvre le fichier d'entrée
+int fdInput = open(argv[1], O_RDONLY);
+// On duplique le fichier d'entrée sur l'entrée standard du programme 
+// (rappel : qui est aussi un fichier)
+dup2(fdInput, STDIN_FILENO);
+// On ferme le fichier d'entré
+close(fdInput);
+
+// On ouvre le fichier de sortie
+int fdOut = open(
+    argv[2],            // path
+    O_CREAT | O_WRONLY, // flags
+    0644                // perms (octal)
+);
+// On duplique le fichier de sortie vers la sortie standards 
+dup2(fdOut, STDOUT_FILENO);
+// On ferme le fichier
+close(fdOut);
+
+// On execute la commande tr pour passer de min à maj (Voir exec)
+execlp("tr", "tr", "[a-z]", "[A-Z]", NULL);
+```
 
 ---
 
