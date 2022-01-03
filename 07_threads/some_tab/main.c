@@ -5,8 +5,8 @@
 #include <time.h>
 #include <unistd.h>
 
-#define TAILLE_TAB (long)10000000
-#define THREAD_COUNT 4
+#define TAILLE_TAB (long)1000000000
+#define THREAD_COUNT 8
 
 #define TIME_DIFF(t1, t2) ((t2.tv_sec - t1.tv_sec) * 1000000 + (t2.tv_usec - t1.tv_usec))
 
@@ -14,17 +14,17 @@
  * Argument donnée à chaque thread en paramètre
  */
 struct args_somme_tranche {
-    double *tab; // Tab sur lequel faire la somme
-    int debut; // Point de départ pour ce thread
-    int fin; // Point de fin pour ce thread
-    double *somme; // adresse du double qui contient le somme des sommes (Même sur tous les threeds)
+    double *tab;            // Tab sur lequel faire la somme
+    int debut;              // Point de départ pour ce thread
+    int fin;                // Point de fin pour ce thread
+    double *somme;          // adresse du double qui contient le somme des sommes (Même sur tous les threeds)
     pthread_mutex_t *mutex; // mutex du programme (Le même sur tous les threads)
 };
 
 /**
  * Fait la somme sur une partie donnée du tableau
  */
-void somme_tranche(double *tab, int debut, int fin, double *somme, pthread_mutex_t* mutex) {
+void somme_tranche(double *tab, int debut, int fin, double *somme, pthread_mutex_t *mutex) {
     double tmp = 0;
     for (int i = debut; i < fin; i++)
         tmp += tab[i];
@@ -76,7 +76,7 @@ int main() {
     // Création du tableau des sous sommes qui vont être données par les threads
     // double *sommes = malloc(sizeof(double) * TAILLE_TAB);
     double somme = 0;
-    
+
     // Création de tous les threads
     // 1 arguments pour chaque thread
     struct args_somme_tranche *args = create_args(THREAD_COUNT, tab, &somme, &mutex);
