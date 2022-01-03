@@ -88,19 +88,15 @@ static void do_system(struct Shell *this, const struct StringVector *args) {
             } else if (*arg_i == '>') {
                 read_output = 1;
             } else if (read_output) {
-                int fdOut = open(arg_i, O_CREAT | O_WRONLY, 0644);
+                int fdOut = open(arg_i, O_CREAT | O_WRONLY | O_TRUNC, 0644);
                 dup2(fdOut, STDOUT_FILENO);
                 close(fdOut);
-                
-                args_filtered[i] = NULL;
-                execvp(args_filtered[0], args_filtered);
+                read_output = 0;
             } else if (read_input) {
                 int fdIn = open(arg_i, O_RDONLY);
                 dup2(fdIn, STDIN_FILENO);
                 close(fdIn);
-                
-                args_filtered[i] = NULL; // dernier argument = NULL (Pour exec)
-                execvp(args_filtered[0], args_filtered);
+                read_input = 0;
             } else {
                 args_filtered[i - 1] = arg_i;
             }
