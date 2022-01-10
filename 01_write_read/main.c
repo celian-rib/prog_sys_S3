@@ -47,6 +47,12 @@
 //     printf("le s'est terminé avec le status %d\n", status);
 // }
 
+// int main() {
+//     execl ("/bin/ls", "ls", "-la", NULL);
+// }
+
 int main() {
-    execl ("/bin/ls", "ls", "-la", NULL);
+    for(int i = 0; i < 2; i++)
+        fork();
+    printf("pid = %d\n", getpid());
 }

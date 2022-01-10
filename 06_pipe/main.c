@@ -51,6 +51,5 @@ int main() {
     // Père (Receveur)
     close(sortie);
     consommer(entree);
-    wait(NULL);
     exit(EXIT_SUCCESS);
 }

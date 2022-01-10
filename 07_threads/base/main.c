@@ -30,5 +30,4 @@ int main() {
     pthread_join(t2, NULL);
     // t1 et t2 sont liés au processu courant (Celui qui les a lancé)
     // Donc si on kill le programme, tous les thread sont tués
-
 }

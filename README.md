@@ -298,8 +298,6 @@ Un pipe permet de faire communiquer deux processus
 
 > (à travers un tuyaux ou un tube ça dépend de l'humeur de Ramet)
 
-
-
 Il est composé de deux fichiers dans lesquel ont doit écrire (pour envoyer un message) et lire (recevoir le message).
 
 - Le fichier de sortie = écrire dedans pour envoyer
@@ -328,7 +326,6 @@ close(sortie); // On ferme le fichier de sortir (le pere ne lis pas)
 consommer(entree); // fonction qui permet de lire l'entree du pipe
 
 exit(EXIT_SUCCESS);
-
 ```
 
 ```c
@@ -365,10 +362,43 @@ void consommer(int entree) {
 }
 ```
 
-
-
 ---
 
-## 11)
+## 11) Threads
+
+Threads : blocks d'execution en parallele qui ont **la même mémoire**
+
+> Equivalent au sous processus avec fork mais moins lourd car mm mémoire
+
+> Sa vie est liée à son père contrairement à avec un fork
+
+```c
+// Fonction qui va être exécuté dans un ou plusieurs threads en parallèle
+void *say_hello(void *data) {
+    char *str;
+    str = (char*) data; // On cast en string
+    while(1) {
+        printf("%s\n", str);
+        sleep(1);
+    }
+}
+
+int main() {
+    pthread_t t1, t2;
+    pthread_create(&t1, NULL, say_hello, "Hello thread 1");
+    pthread_create(&t2, NULL, say_hello, "Hello thread 2");
+    // Param 1 pointeur vers le thread
+    // Param 2 paramètre de setup du thread sous forme 
+    //         de struct (Souvent NULL = param par défaut)
+    // Param 3 fonction à lancer 
+    //         (Toujours une void, ses param doivent être void*)
+    // Param 4 (Argument de la fonction say_hello -> le void* a donner)
+
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
+    // t1 et t2 sont liés au processu courant (Celui qui les a lancé)
+    // Donc si on kill le programme, tous les thread sont tués
+}
+```
 
 ---
