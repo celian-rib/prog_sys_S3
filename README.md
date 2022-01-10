@@ -258,6 +258,10 @@ kill(pid, SIGUSR1);
 
 ## 9) Redirections
 
+Il est possible de rediriger un fichier vers un autre, par exemple rediriger la sortie standard vers un fichier.
+
+> Rediriger STDOUT_FILENO vers un fichier fait que n'import quel printf sera redirigé vers un fichier plutot que vers le terminal (Par définition le terminal est aussi un fichier).
+
 > <fcntl.h> pour `open`
 > 
 > <unistd.h> pour `dup2`
@@ -289,6 +293,79 @@ execlp("tr", "tr", "[a-z]", "[A-Z]", NULL);
 ---
 
 ## 10) Tuyaux
+
+Un pipe permet de faire communiquer deux processus 
+
+> (à travers un tuyaux ou un tube ça dépend de l'humeur de Ramet)
+
+
+
+Il est composé de deux fichiers dans lesquel ont doit écrire (pour envoyer un message) et lire (recevoir le message).
+
+- Le fichier de sortie = écrire dedans pour envoyer
+
+- Le fichier d'entrée = =lire dedans pour recevoir un message
+
+```c
+// Création du pipe
+int fds[2];
+pipe(fds); // Inititalisation
+
+int entree = fds[0];// La case 0 du tableau contient le fichier d'entree
+int sortie = fds[1];// La case 1 contient le fichier de sortie
+
+
+// Création fils (Qui va servir d'emetteur de message)
+if (fork() == 0) {
+    close(entree); // Ferme l'entrée car le fils n'a pas besoin de lire
+    produire(sortie); //Fonction qui permet au fils d'écrire dans le pipe
+    exit(EXIT_SUCCESS); // Fin fils
+}
+
+
+// Père (Receveur)
+close(sortie); // On ferme le fichier de sortir (le pere ne lis pas)
+consommer(entree); // fonction qui permet de lire l'entree du pipe
+
+exit(EXIT_SUCCESS);
+
+```
+
+```c
+struct Message { // Structure utilisée qui passe à travers le pipe
+    int data;
+};
+```
+
+Fonction pour le fils :
+
+```c
+void produire(int sortie) { // On passe en param le fichier ou écrire
+    for (int i = 0; i < 10; i++) { // On écris 10 fois un message
+        struct Message m;
+        m.data = i;
+        write(sortie, &m, sizeof(m)); // Ecriture dans le pipe
+    }
+    close(sortie); // On ferme la sortie quand on a terminé
+}
+```
+
+Fonction pour le père
+
+```c
+void consommer(int entree) {
+    while(1) { // Attente des messages
+        struct Message m;
+        int r = read(entree, &m, sizeof(m)); // On lis le message
+        if (r != sizeof(m)) // Si le message n'est pas correct
+            break; // On attend plus (quitte le while)
+        printf("%d\n", m.data); // On affiche le contenu du message
+    }
+    close(entree); // On a terminé, on ferme l'entree
+}
+```
+
+
 
 ---
 
