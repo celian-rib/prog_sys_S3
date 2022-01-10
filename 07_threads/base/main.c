@@ -8,6 +8,7 @@
 // Equivalent au sous processus avec fork mais moins lourd car mm mémoire
 // Sa vie est liée à son père contrairement à avec un fork
 
+// Fonction qui va être exécuté dans un ou plusieurs threads en parallèle
 void *say_hello(void *data) {
     char *str;
     str = (char*) data; // On cast en string
