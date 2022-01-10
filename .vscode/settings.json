@@ -5,6 +5,7 @@
         "cstdlib": "c",
         "unistd.h": "c",
         "shell.h": "c",
-        "types.h": "c"
+        "types.h": "c",
+        "stat.h": "c"
     }
 }
