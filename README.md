@@ -1,4 +1,5 @@
 # <u>Prog système</u>
+[[Fiche à prendre en DS]](./cheat_sheet.pdf)
 
 ## 1) But système d'exploitation
 
