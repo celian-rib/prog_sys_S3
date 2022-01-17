@@ -6,6 +6,7 @@
         "unistd.h": "c",
         "shell.h": "c",
         "types.h": "c",
-        "stat.h": "c"
+        "stat.h": "c",
+        "waitinglist.h": "c"
     }
 }
